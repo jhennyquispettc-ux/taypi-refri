@@ -106,7 +106,7 @@ Cada fila es un **uso del refrigerador** y, a la vez, el **bloqueo**: mientras e
 | `cuenta_id` | int FK → cuentas | Cuenta del día a la que se cobra. null para admin o sin usuario |
 | `estado` | text | `pendiente`, `abierto`, `cerrado`, `expirado` o `liberado` (ver `flujo.md`) |
 | `creado_en` | timestamptz | Cuándo se pidió |
-| `expira_en` | timestamptz | `creado_en + 5 s`: límite para abrir la puerta (el servidor da 2 s de gracia) |
+| `expira_en` | timestamptz | `creado_en + 10 s`: límite para abrir la puerta (el servidor da 2 s de gracia) |
 | `abierto_en` | timestamptz | Cuándo se abrió la puerta |
 | `cerrado_en` | timestamptz | Cuándo se cerró, expiró o se liberó |
 | `botellas_inicio` | int | Botellas al abrir (último conteo estable con la puerta cerrada) |
