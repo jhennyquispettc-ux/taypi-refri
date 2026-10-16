@@ -76,7 +76,7 @@ test('lectura del ESP32 sin turno: LED rojo', async () => {
 test('Ana pide turno: se crea su cuenta del día y Beto queda bloqueado', async () => {
   const r = await api('POST', '/turno', { token: ana.token });
   assert.equal(r.data.motivo, 'turno_asignado');
-  assert.equal(r.data.segundos, 10);
+  assert.equal(r.data.segundos, 30);
 
   const b = await api('POST', '/turno', { token: beto.token });
   assert.equal(b.status, 409);

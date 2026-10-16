@@ -28,7 +28,7 @@ create table cuentas (
 );
 
 -- Turnos: quién usa el refrigerador. También es el registro de cada uso.
---   pendiente -> pidió abrir, tiene 10 s para abrir la puerta
+--   pendiente -> pidió abrir, tiene 30 s para abrir la puerta
 --   abierto   -> la puerta se abrió (usuario_id null = abierto sin turno)
 --   cerrado   -> la puerta se cerró y se aplicó el cambio a la cuenta
 --   expirado  -> no abrió a tiempo

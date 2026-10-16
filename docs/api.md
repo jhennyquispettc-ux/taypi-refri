@@ -118,7 +118,7 @@ Errores: 401.
 
 ### `POST /api/turno`
 
-Pide abrir el refrigerador (botón de la web o página `/abrir` del QR). Si el usuario es `cliente`, crea u obtiene su cuenta del día. Crea un turno `pendiente` con **10 s** para abrir.
+Pide abrir el refrigerador (botón de la web o página `/abrir` del QR). Si el usuario es `cliente`, crea u obtiene su cuenta del día. Crea un turno `pendiente` con **30 s** para abrir.
 
 ```bash
 curl -X POST $API/turno -H "Authorization: Bearer $TOKEN"

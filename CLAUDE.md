@@ -16,7 +16,7 @@ Producto mínimo de un proyecto académico de IoT. En el README están la puesta
 
 **Turnos**
 - Solo un usuario a la vez: lo garantiza el índice único parcial `turnos_un_activo`.
-- Hay **10 s para abrir** desde que se asigna el turno, más 2 s de gracia en el servidor.
+- Hay **30 s para abrir** desde que se asigna el turno, más 2 s de gracia en el servidor.
 - Dos formas de pedir el turno: el botón de la web y el QR del refrigerador (`/abrir`).
 
 **Eventos del ESP32**

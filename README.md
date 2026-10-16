@@ -25,7 +25,7 @@ ESP32 (MicroPython) ──HTTPS──►  API Express (Render)  ──pg──�
 ## Cómo funciona
 
 1. Te logueas con Google y tocas **Abrir refrigerador**, o escaneas el QR del refrigerador. Solo se puede si nadie lo está usando.
-2. El backend busca tu cuenta de hoy (si no existe, la crea) y te da el turno. El LED verde se enciende y tienes **10 s** para abrir la puerta.
+2. El backend busca tu cuenta de hoy (si no existe, la crea) y te da el turno. El LED verde se enciende y tienes **30 s** para abrir la puerta.
 3. **Al abrir**, el ESP32 envía cuántas botellas había. **Al cerrar**, envía cuántas quedan. La diferencia se suma a tu cuenta.
 4. Si la puerta sigue abierta a los **2 min**, el ESP32 envía un corte y se cobra lo sacado hasta ese momento. El refrigerador sigue siendo tuyo hasta que cierres la puerta, y lo que falte se cobra al cerrar.
 5. El admin ve las cuentas impagas y las marca como pagadas.

@@ -18,6 +18,6 @@ export function cargarConfig() {
 }
 
 // Reglas del negocio
-export const SEGUNDOS_PARA_ABRIR = 10;  // desde que se asigna el turno
+export const SEGUNDOS_PARA_ABRIR = 30;  // desde que se asigna el turno
 export const GRACIA_SEGUNDOS = 2;       // margen por la latencia de red del ESP32
 export const ZONA_HORARIA = 'America/La_Paz';

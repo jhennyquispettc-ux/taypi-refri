@@ -16,7 +16,7 @@
 
 - **QR en las mesas** → abre la web (`/`): el cliente inicia sesión con Google y ve si el refrigerador está libre y su cuenta de hoy.
 - **QR pegado en el refrigerador** → abre `/abrir`: tras iniciar sesión, la web **pide el turno de inmediato** (sin pulsar ningún botón).
-- En `/`, el botón **"Abrir refrigerador"** solo aparece cuando está libre; al pedir el turno se muestra una **cuenta regresiva de 10 s**.
+- En `/`, el botón **"Abrir refrigerador"** solo aparece cuando está libre; al pedir el turno se muestra una **cuenta regresiva de 30 s**.
 
 ## Diagrama de secuencia de un uso completo
 
@@ -47,9 +47,9 @@ sequenceDiagram
         W-->>C: "En uso, espera"
     else Libre
         A->>DB: crear/obtener cuenta de hoy (unique usuario_id, fecha)
-        A->>DB: insert turno 'pendiente', expira_en = now() + 10 s
+        A->>DB: insert turno 'pendiente', expira_en = now() + 30 s
         A-->>W: 200 { motivo: "turno_asignado", segundos: 5 }
-        W-->>C: Cuenta regresiva de 10 s
+        W-->>C: Cuenta regresiva de 30 s
     end
 
     loop Cada 1 s
@@ -87,7 +87,7 @@ sequenceDiagram
 ### Reglas clave
 
 1. **Una cuenta por usuario y por día** (hora de Bolivia). Se crea al pedir el primer turno del día.
-2. **10 s para abrir** desde que se asigna el turno; el servidor da **2 s de gracia** por la latencia (el ESP32 se entera del turno en ≤ 1 s mediante su lectura).
+2. **30 s para abrir** desde que se asigna el turno; el servidor da **2 s de gracia** por la latencia (el ESP32 se entera del turno en ≤ 1 s mediante su lectura).
 3. El ESP32 envía **`apertura`** con el último conteo estable con la puerta cerrada y **`cierre`** con el conteo estable al cerrar. El backend calcula la diferencia: `sacadas = botellas_corte − botellas`.
 4. **Devolución**: si al cerrar hay más botellas, la diferencia es negativa y resta de la cuenta, **sin bajar de 0**.
 5. **Turno de admin = reposición**: no se crea cuenta; el aumento queda registrado en `turnos.retiradas` (negativo).
@@ -103,7 +103,7 @@ stateDiagram-v2
     [*] --> pendiente: POST /api/turno (usuario)
     [*] --> abierto: apertura sin turno (usuario_id null)
     pendiente --> abierto: ESP32 envía apertura
-    pendiente --> expirado: no abrió en 10 s (+2 s de gracia)
+    pendiente --> expirado: no abrió en 30 s (+2 s de gracia)
     pendiente --> liberado: admin libera
     abierto --> abierto: corte a los 2 min (cobra, sigue bloqueado)
     abierto --> cerrado: ESP32 envía cierre (cobra la diferencia)
@@ -121,7 +121,7 @@ stateDiagram-v2
 
 | Estado | Significado | ¿Bloquea el refrigerador? |
 |---|---|---|
-| `pendiente` | Pidió el turno; tiene 10 s para abrir | Sí |
+| `pendiente` | Pidió el turno; tiene 30 s para abrir | Sí |
 | `abierto` | La puerta está abierta (con o sin usuario) | Sí |
 | `cerrado` | Se cerró y se aplicó el cambio a la cuenta | No |
 | `expirado` | No abrió a tiempo | No |
@@ -143,7 +143,7 @@ La expiración no usa tareas programadas: `expirarTurnos()` se ejecuta al inicio
 
 | Ruta | Quién | Contenido |
 |---|---|---|
-| `/` | Cliente | Login con Google; refrigerador libre / en uso; botón "Abrir refrigerador" solo si está libre; cuenta regresiva de 10 s; cuenta de hoy |
+| `/` | Cliente | Login con Google; refrigerador libre / en uso; botón "Abrir refrigerador" solo si está libre; cuenta regresiva de 30 s; cuenta de hoy |
 | `/abrir` | Cliente | Destino del QR del refrigerador: pide el turno de inmediato |
 | `/admin` | Admin | KPIs, gráficas Chart.js (botellas en el tiempo; temperatura y humedad), polling cada 2 s, botón "Liberar refrigerador", últimos usos |
 | `/admin/cuentas` | Admin | Cuentas impagas y pagadas; "Marcar pagada" |
