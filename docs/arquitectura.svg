@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="700" viewBox="0 0 1200 700" font-family="Arial, Helvetica, sans-serif">
+  <title>Taypi Refri - Arquitectura</title>
+  <defs>
+    <marker id="flecha" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#344055"/>
+    </marker>
+  </defs>
+  <rect width="1200" height="700" fill="#ffffff"/>
+  <text x="600" y="42" text-anchor="middle" font-size="26" font-weight="bold" fill="#1d3557">Taypi Refri v2 — Arquitectura</text>
+  <text x="600" y="68" text-anchor="middle" font-size="14" fill="#555">ESP32 → API REST propia (Express) → PostgreSQL · la web consulta la API cada 2 s</text>
+
+  <!-- Refrigerador -->
+  <rect x="40" y="110" width="300" height="300" rx="12" fill="#e8f1fb" stroke="#1f3b73" stroke-width="2"/>
+  <text x="190" y="138" text-anchor="middle" font-size="17" font-weight="bold" fill="#1f3b73">Refrigerador</text>
+  <rect x="70" y="155" width="240" height="70" rx="8" fill="#1f3b73"/>
+  <text x="190" y="185" text-anchor="middle" font-size="16" font-weight="bold" fill="#fff">ESP32 DevKit V1</text>
+  <text x="190" y="206" text-anchor="middle" font-size="12" fill="#cfe0ff">MicroPython · WiFi</text>
+  <g font-size="13" fill="#1f2933">
+    <text x="75" y="255">• Celda 10 kg + HX711 → botellas</text>
+    <text x="75" y="280">• MC-31 → puerta abierta/cerrada</text>
+    <text x="75" y="305">• DHT22 → temperatura y humedad</text>
+    <text x="75" y="330">• LED verde / LED rojo</text>
+    <text x="75" y="355">• QR pegado → /abrir</text>
+  </g>
+  <text x="190" y="392" text-anchor="middle" font-size="11" fill="#555">Reintenta cada evento hasta recibir 200</text>
+
+  <!-- API -->
+  <rect x="450" y="130" width="310" height="260" rx="12" fill="#eef7ee" stroke="#2d6a4f" stroke-width="2"/>
+  <text x="605" y="160" text-anchor="middle" font-size="17" font-weight="bold" fill="#2d6a4f">API REST — Node + Express</text>
+  <text x="605" y="180" text-anchor="middle" font-size="12" fill="#555">Render (Web Service)</text>
+  <g font-size="13" fill="#1f2933">
+    <text x="470" y="210">/api/auth/google → JWT propio (7 días)</text>
+    <text x="470" y="234">/api/estado · /api/turno · /api/cuentas</text>
+    <text x="470" y="258">/api/admin/* (rol admin)</text>
+    <text x="470" y="282">/api/dispositivo/* (x-device-key)</text>
+    <text x="470" y="314">Lógica: turnos (bloqueo), cuenta del</text>
+    <text x="470" y="334">día, diferencia de botellas, expiración</text>
+    <text x="470" y="354">de 5 s + 2 s de gracia</text>
+  </g>
+
+  <!-- DB -->
+  <rect x="890" y="130" width="270" height="260" rx="12" fill="#f3eefb" stroke="#5a3e8f" stroke-width="2"/>
+  <text x="1025" y="160" text-anchor="middle" font-size="17" font-weight="bold" fill="#5a3e8f">PostgreSQL</text>
+  <text x="1025" y="180" text-anchor="middle" font-size="12" fill="#555">Supabase (solo como base de datos)</text>
+  <ellipse cx="1025" cy="212" rx="60" ry="12" fill="#d9ccf0" stroke="#5a3e8f"/>
+  <path d="M965 212 V262 a60 12 0 0 0 120 0 V212" fill="#d9ccf0" stroke="#5a3e8f"/>
+  <g font-size="13" fill="#1f2933">
+    <text x="910" y="305">usuarios · cuentas · turnos · lecturas</text>
+    <text x="910" y="329">Índice único parcial turnos_un_activo</text>
+    <text x="910" y="353">RLS sin políticas: cierra la API</text>
+    <text x="910" y="373">REST automática de Supabase</text>
+  </g>
+
+  <!-- Usuarios -->
+  <rect x="40" y="490" width="300" height="170" rx="12" fill="#fff6e5" stroke="#b7791f" stroke-width="2"/>
+  <text x="190" y="518" text-anchor="middle" font-size="17" font-weight="bold" fill="#b7791f">Usuarios (celular / PC)</text>
+  <g font-size="13" fill="#1f2933">
+    <text x="60" y="548">• Cliente: QR de las mesas → web</text>
+    <text x="60" y="572">• Cliente: QR del refrigerador → /abrir</text>
+    <text x="60" y="596">• Admin: dashboard y cuentas</text>
+    <text x="60" y="620">• Rol cliente | admin (1.er admin por SQL)</text>
+  </g>
+
+  <!-- Web -->
+  <rect x="450" y="490" width="310" height="170" rx="12" fill="#e9f5fb" stroke="#0077b6" stroke-width="2"/>
+  <text x="605" y="518" text-anchor="middle" font-size="17" font-weight="bold" fill="#0077b6">Web — React + Vite</text>
+  <text x="605" y="538" text-anchor="middle" font-size="12" fill="#555">Vercel</text>
+  <g font-size="13" fill="#1f2933">
+    <text x="470" y="566">/ inicio del cliente · /abrir</text>
+    <text x="470" y="590">/admin dashboard (Chart.js)</text>
+    <text x="470" y="614">/admin/cuentas</text>
+    <text x="470" y="638">Polling cada 2 s</text>
+  </g>
+
+  <!-- Google -->
+  <rect x="890" y="490" width="270" height="170" rx="12" fill="#fdecea" stroke="#c0392b" stroke-width="2"/>
+  <text x="1025" y="518" text-anchor="middle" font-size="17" font-weight="bold" fill="#c0392b">Google</text>
+  <text x="1025" y="538" text-anchor="middle" font-size="12" fill="#555">Google Identity Services</text>
+  <g font-size="13" fill="#1f2933">
+    <text x="910" y="570">Botón “Acceder con Google”</text>
+    <text x="910" y="594">Entrega un ID token (JWT de</text>
+    <text x="910" y="614">Google) a la web</text>
+  </g>
+
+  <!-- Flechas -->
+  <g stroke="#344055" stroke-width="2.5" fill="none">
+    <line x1="340" y1="230" x2="446" y2="230" marker-end="url(#flecha)"/>
+    <line x1="446" y1="300" x2="344" y2="300" marker-end="url(#flecha)"/>
+    <line x1="760" y1="260" x2="886" y2="260" marker-start="url(#flecha)" marker-end="url(#flecha)"/>
+    <line x1="605" y1="486" x2="605" y2="394" marker-start="url(#flecha)" marker-end="url(#flecha)"/>
+    <line x1="340" y1="575" x2="446" y2="575" marker-end="url(#flecha)"/>
+    <line x1="760" y1="575" x2="886" y2="575" marker-start="url(#flecha)" marker-end="url(#flecha)"/>
+    <line x1="740" y1="390" x2="905" y2="486" stroke-dasharray="6 5" marker-end="url(#flecha)"/>
+  </g>
+  <g font-size="12" fill="#344055">
+    <text x="393" y="212" text-anchor="middle" font-weight="bold">HTTPS POST</text>
+    <text x="393" y="248" text-anchor="middle">lectura 1 s,</text>
+    <text x="393" y="262" text-anchor="middle">eventos</text>
+    <text x="393" y="318" text-anchor="middle">{ turno } → LED</text>
+    <text x="823" y="250" text-anchor="middle" font-weight="bold">pg + SSL</text>
+    <text x="823" y="280" text-anchor="middle">pooler 5432</text>
+    <text x="615" y="436" font-weight="bold">HTTPS + JWT</text>
+    <text x="615" y="452">GET /estado cada 2 s</text>
+    <text x="393" y="565" text-anchor="middle">navegador</text>
+    <text x="823" y="565" text-anchor="middle">ID token</text>
+    <text x="840" y="420">verifyIdToken</text>
+    <text x="840" y="434">(google-auth-library)</text>
+  </g>
+</svg>

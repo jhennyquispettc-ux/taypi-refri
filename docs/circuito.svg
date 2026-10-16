@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1260" height="920" viewBox="0 0 1260 920" font-family="Arial, Helvetica, sans-serif">
+  <title>Taypi Refri - Diagrama de conexiones</title>
+  <rect x="0" y="0" width="1260" height="920" fill="#ffffff"/>
+
+  <!-- Título -->
+  <text x="630" y="44" text-anchor="middle" font-size="26" font-weight="bold" fill="#1d3557">Taypi Refri — Diagrama de conexiones (ESP32 DevKit V1)</text>
+  <text x="630" y="72" text-anchor="middle" font-size="14" fill="#555">Balanza (celda 10 kg + HX711) · Puerta (MC-31) · Clima (DHT22) · LEDs de estado</text>
+
+  <!-- ================= ESP32 ================= -->
+  <rect x="470" y="140" width="260" height="570" rx="10" fill="#1f3b73" stroke="#0d1f40" stroke-width="2"/>
+  <rect x="545" y="165" width="110" height="120" rx="4" fill="#c9ced6" stroke="#8a919c"/>
+  <text x="600" y="215" text-anchor="middle" font-size="13" font-weight="bold" fill="#333">ESP-WROOM-32</text>
+  <text x="600" y="235" text-anchor="middle" font-size="11" fill="#333">WiFi 2,4 GHz</text>
+  <text x="600" y="345" text-anchor="middle" font-size="18" font-weight="bold" fill="#ffffff">ESP32</text>
+  <text x="600" y="367" text-anchor="middle" font-size="13" fill="#ffffff">DevKit V1</text>
+  <text x="600" y="387" text-anchor="middle" font-size="11" fill="#cfe0ff">MicroPython</text>
+  <rect x="570" y="700" width="60" height="30" rx="3" fill="#b0b5bd" stroke="#666"/>
+  <text x="600" y="750" text-anchor="middle" font-size="11" fill="#555">USB 5 V (alimentación)</text>
+
+  <!-- Pines izquierda -->
+  <g font-size="12" fill="#e8eefc">
+    <text x="482" y="174">EN</text>
+    <text x="482" y="210">VP</text>
+    <text x="482" y="246">VN</text>
+    <text x="482" y="282">D34</text>
+    <text x="482" y="318">D35</text>
+    <text x="482" y="354">D32</text>
+    <text x="482" y="390">D33</text>
+    <text x="482" y="426" font-weight="bold" fill="#ffd166">D25</text>
+    <text x="482" y="462" font-weight="bold" fill="#ffd166">D26</text>
+    <text x="482" y="498" font-weight="bold" fill="#ffd166">D27</text>
+    <text x="482" y="534">D14</text>
+    <text x="482" y="570">D12</text>
+    <text x="482" y="606">D13</text>
+    <text x="482" y="642" font-weight="bold" fill="#ffd166">GND</text>
+    <text x="482" y="678">VIN</text>
+  </g>
+  <!-- Pines derecha -->
+  <g font-size="12" fill="#e8eefc" text-anchor="end">
+    <text x="718" y="174">D23</text>
+    <text x="718" y="210">D22</text>
+    <text x="718" y="246">TX0</text>
+    <text x="718" y="282">RX0</text>
+    <text x="718" y="318">D21</text>
+    <text x="718" y="354">D19</text>
+    <text x="718" y="390">D18</text>
+    <text x="718" y="426">D5</text>
+    <text x="718" y="462">TX2</text>
+    <text x="718" y="498" font-weight="bold" fill="#ffd166">RX2 (D16)</text>
+    <text x="718" y="534" font-weight="bold" fill="#ffd166">D4</text>
+    <text x="718" y="570">D2</text>
+    <text x="718" y="606" font-weight="bold" fill="#ffd166">D15</text>
+    <text x="718" y="642" font-weight="bold" fill="#ffd166">GND</text>
+    <text x="718" y="678" font-weight="bold" fill="#ffd166">3V3</text>
+  </g>
+  <g fill="#d4af37" stroke="#8a6d1d">
+    <circle cx="470" cy="170" r="4"/><circle cx="470" cy="206" r="4"/><circle cx="470" cy="242" r="4"/>
+    <circle cx="470" cy="278" r="4"/><circle cx="470" cy="314" r="4"/><circle cx="470" cy="350" r="4"/>
+    <circle cx="470" cy="386" r="4"/><circle cx="470" cy="422" r="4"/><circle cx="470" cy="458" r="4"/>
+    <circle cx="470" cy="494" r="4"/><circle cx="470" cy="530" r="4"/><circle cx="470" cy="566" r="4"/>
+    <circle cx="470" cy="602" r="4"/><circle cx="470" cy="638" r="4"/><circle cx="470" cy="674" r="4"/>
+    <circle cx="730" cy="170" r="4"/><circle cx="730" cy="206" r="4"/><circle cx="730" cy="242" r="4"/>
+    <circle cx="730" cy="278" r="4"/><circle cx="730" cy="314" r="4"/><circle cx="730" cy="350" r="4"/>
+    <circle cx="730" cy="386" r="4"/><circle cx="730" cy="422" r="4"/><circle cx="730" cy="458" r="4"/>
+    <circle cx="730" cy="494" r="4"/><circle cx="730" cy="530" r="4"/><circle cx="730" cy="566" r="4"/>
+    <circle cx="730" cy="602" r="4"/><circle cx="730" cy="638" r="4"/><circle cx="730" cy="674" r="4"/>
+  </g>
+
+  <!-- ================= LADO IZQUIERDO: LEDs y puerta ================= -->
+  <!-- GND común izquierdo -->
+  <path d="M470 638 H120 V330" fill="none" stroke="#222" stroke-width="3"/>
+  <text x="128" y="630" font-size="12" fill="#222">GND</text>
+
+  <!-- LED verde: D25 -> ánodo, cátodo -> 220 ohm -> GND -->
+  <path d="M470 422 H440 V330 H404" fill="none" stroke="#2b9348" stroke-width="3"/>
+  <polygon points="404,318 404,342 382,330" fill="#55d66b" stroke="#1b5e20" stroke-width="2"/>
+  <line x1="380" y1="316" x2="380" y2="344" stroke="#1b5e20" stroke-width="3"/>
+  <path d="M388 312 l-8 -12 M396 312 l-8 -12" stroke="#2b9348" stroke-width="1.5"/>
+  <path d="M380 330 H330" stroke="#222" stroke-width="3"/>
+  <rect x="270" y="322" width="60" height="16" rx="3" fill="#e9d8a6" stroke="#7a5c12" stroke-width="2"/>
+  <path d="M282 322 v16 M292 322 v16 M314 322 v16" stroke="#7a5c12" stroke-width="2"/>
+  <path d="M270 330 H120" stroke="#222" stroke-width="3"/>
+  <text x="392" y="298" text-anchor="middle" font-size="14" font-weight="bold" fill="#1b5e20">LED verde</text>
+  <text x="420" y="350" text-anchor="middle" font-size="10" fill="#444">+ pata larga</text>
+  <text x="300" y="312" text-anchor="middle" font-size="12" fill="#7a5c12">220 Ω</text>
+
+  <!-- LED rojo: D26 -->
+  <path d="M470 458 H404" fill="none" stroke="#c2185b" stroke-width="3"/>
+  <polygon points="404,446 404,470 382,458" fill="#ff5a5f" stroke="#8b0000" stroke-width="2"/>
+  <line x1="380" y1="444" x2="380" y2="472" stroke="#8b0000" stroke-width="3"/>
+  <path d="M388 440 l-8 -12 M396 440 l-8 -12" stroke="#c2185b" stroke-width="1.5"/>
+  <path d="M380 458 H330" stroke="#222" stroke-width="3"/>
+  <rect x="270" y="450" width="60" height="16" rx="3" fill="#e9d8a6" stroke="#7a5c12" stroke-width="2"/>
+  <path d="M282 450 v16 M292 450 v16 M314 450 v16" stroke="#7a5c12" stroke-width="2"/>
+  <path d="M270 458 H120" stroke="#222" stroke-width="3"/>
+  <text x="392" y="424" text-anchor="middle" font-size="14" font-weight="bold" fill="#8b0000">LED rojo</text>
+  <text x="420" y="486" text-anchor="middle" font-size="10" fill="#444">+ pata larga</text>
+  <text x="300" y="440" text-anchor="middle" font-size="12" fill="#7a5c12">220 Ω</text>
+
+  <!-- MC-31: D27 -> interruptor magnético -> GND (PULL_UP interno) -->
+  <path d="M470 494 H440 V560 H362" fill="none" stroke="#1d4ed8" stroke-width="3"/>
+  <circle cx="358" cy="560" r="5" fill="#fff" stroke="#1d4ed8" stroke-width="2"/>
+  <circle cx="300" cy="560" r="5" fill="#fff" stroke="#222" stroke-width="2"/>
+  <line x1="304" y1="557" x2="350" y2="540" stroke="#333" stroke-width="3"/>
+  <rect x="268" y="520" width="122" height="60" rx="8" fill="none" stroke="#1d4ed8" stroke-dasharray="5 4"/>
+  <rect x="296" y="590" width="66" height="18" rx="3" fill="#9aa5b1" stroke="#555"/>
+  <text x="329" y="603" text-anchor="middle" font-size="10" fill="#fff">imán (puerta)</text>
+  <path d="M295 560 H120" stroke="#222" stroke-width="3"/>
+  <text x="329" y="512" text-anchor="middle" font-size="14" font-weight="bold" fill="#1d4ed8">MC-31 (reed switch)</text>
+
+  <g fill="#222">
+    <circle cx="120" cy="330" r="5"/><circle cx="120" cy="458" r="5"/><circle cx="120" cy="560" r="5"/>
+  </g>
+
+  <!-- ================= LADO DERECHO: alimentación ================= -->
+  <!-- GND rail: GND(730,638) -> x=750 ; arriba a HX711 GND, abajo a DHT22 GND -->
+  <path d="M730 638 H750 V458" fill="none" stroke="#222" stroke-width="3"/>
+  <path d="M750 638 V730 H870 V674 H900" fill="none" stroke="#222" stroke-width="3"/>
+  <!-- 3V3 rail: 3V3(730,674) con salto sobre GND -> x=775 -->
+  <path d="M730 674 H744 a6 6 0 0 1 12 0 H775 V422 H880" fill="none" stroke="#d62828" stroke-width="3"/>
+  <path d="M775 566 H900" fill="none" stroke="#d62828" stroke-width="3"/>
+  <!-- HX711 GND con salto sobre 3V3 -->
+  <path d="M750 458 H769 a6 6 0 0 1 12 0 H880" fill="none" stroke="#222" stroke-width="3"/>
+  <circle cx="750" cy="638" r="5" fill="#222"/>
+  <circle cx="775" cy="566" r="5" fill="#d62828"/>
+
+  <!-- Señales con saltos sobre las barras -->
+  <path d="M730 494 H744 a6 6 0 0 1 12 0 H769 a6 6 0 0 1 12 0 H880" fill="none" stroke="#0f9d8a" stroke-width="3"/>
+  <path d="M730 530 H744 a6 6 0 0 1 12 0 H769 a6 6 0 0 1 12 0 H880" fill="none" stroke="#7b2cbf" stroke-width="3"/>
+  <path d="M730 602 H744 a6 6 0 0 1 12 0 H769 a6 6 0 0 1 12 0 H900" fill="none" stroke="#f77f00" stroke-width="3"/>
+
+  <text x="760" y="410" font-size="11" fill="#d62828" font-weight="bold">3V3</text>
+  <text x="800" y="452" font-size="11" fill="#222" font-weight="bold">GND</text>
+  <text x="790" y="488" font-size="11" fill="#0f9d8a" font-weight="bold">DT</text>
+  <text x="790" y="524" font-size="11" fill="#7b2cbf" font-weight="bold">SCK</text>
+  <text x="790" y="596" font-size="11" fill="#f77f00" font-weight="bold">DATA</text>
+
+  <!-- ================= HX711 ================= -->
+  <rect x="880" y="398" width="130" height="152" rx="6" fill="#2d6a4f" stroke="#1b4332" stroke-width="2"/>
+  <text x="945" y="390" text-anchor="middle" font-size="15" font-weight="bold" fill="#1b4332">HX711</text>
+  <rect x="925" y="455" width="40" height="40" fill="#111"/>
+  <g font-size="11" fill="#fff">
+    <text x="888" y="426">VCC</text><text x="888" y="462">GND</text>
+    <text x="888" y="498">DT</text><text x="888" y="534">SCK</text>
+    <text x="1002" y="426" text-anchor="end">E+</text><text x="1002" y="462" text-anchor="end">E−</text>
+    <text x="1002" y="498" text-anchor="end">A−</text><text x="1002" y="534" text-anchor="end">A+</text>
+  </g>
+
+  <!-- Celda de carga: rojo E+, negro E-, blanco A-, verde A+ -->
+  <path d="M1010 422 H1070 V440 H1100" fill="none" stroke="#d62828" stroke-width="3"/>
+  <path d="M1010 458 H1060 V455 H1100" fill="none" stroke="#222" stroke-width="3"/>
+  <path d="M1010 494 H1050 V470 H1100" fill="none" stroke="#777" stroke-width="5"/>
+  <path d="M1010 494 H1050 V470 H1100" fill="none" stroke="#ffffff" stroke-width="2.5"/>
+  <path d="M1010 530 H1040 V485 H1100" fill="none" stroke="#2b9348" stroke-width="3"/>
+  <rect x="1100" y="430" width="130" height="66" rx="4" fill="#cfd4da" stroke="#6c757d" stroke-width="2"/>
+  <circle cx="1205" cy="451" r="6" fill="#fff" stroke="#6c757d"/>
+  <circle cx="1205" cy="475" r="6" fill="#fff" stroke="#6c757d"/>
+  <rect x="1140" y="452" width="34" height="22" fill="#f1e3b0" stroke="#b08900"/>
+  <text x="1165" y="418" text-anchor="middle" font-size="14" font-weight="bold" fill="#333">Celda de carga 10 kg</text>
+  <text x="1165" y="516" text-anchor="middle" font-size="11" fill="#555">montaje en Z (ver circuito.md)</text>
+  <g font-size="10" fill="#333">
+    
+  </g>
+  <text x="1075" y="352" font-size="11" fill="#333">rojo → E+</text>
+  <text x="1075" y="366" font-size="11" fill="#333">negro → E−</text>
+  <text x="1075" y="380" font-size="11" fill="#333">blanco → A−   verde → A+</text>
+
+  <!-- 10k pull-up entre VCC y DATA del DHT22 -->
+  <path d="M860 566 V574" stroke="#d62828" stroke-width="2"/>
+  <rect x="853" y="574" width="14" height="20" rx="2" fill="#e9d8a6" stroke="#7a5c12" stroke-width="1.5" stroke-dasharray="3 2"/>
+  <path d="M860 594 V602" stroke="#f77f00" stroke-width="2"/>
+  <circle cx="860" cy="566" r="4" fill="#d62828"/><circle cx="860" cy="602" r="4" fill="#f77f00"/>
+  <text x="1020" y="584" font-size="11" fill="#7a5c12">10 kΩ pull-up VCC–DATA</text>
+  <text x="1020" y="598" font-size="11" fill="#7a5c12">(solo DHT22 de 4 pines;</text><text x="1020" y="612" font-size="11" fill="#7a5c12">el módulo de 3 pines ya la trae)</text>
+
+  <!-- ================= DHT22 ================= -->
+  <rect x="900" y="552" width="110" height="150" rx="6" fill="#f5f5f5" stroke="#9e9e9e" stroke-width="2"/>
+  <g stroke="#bdbdbd"><line x1="960" y1="565" x2="1000" y2="565"/><line x1="960" y1="580" x2="1000" y2="580"/>
+    <line x1="960" y1="595" x2="1000" y2="595"/><line x1="960" y1="610" x2="1000" y2="610"/><line x1="960" y1="625" x2="1000" y2="625"/></g>
+  <g font-size="11" fill="#333">
+    <text x="906" y="570">VCC</text><text x="906" y="606">DATA</text>
+    <text x="906" y="642" fill="#999">NC</text><text x="906" y="678">GND</text>
+  </g>
+  <text x="955" y="722" text-anchor="middle" font-size="15" font-weight="bold" fill="#333">DHT22</text>
+  <text x="955" y="738" text-anchor="middle" font-size="11" fill="#555">dentro del refrigerador</text>
+
+  <!-- ================= Leyenda ================= -->
+  <rect x="40" y="780" width="1180" height="125" rx="8" fill="#f8f9fa" stroke="#dee2e6"/>
+  <text x="60" y="805" font-size="14" font-weight="bold" fill="#1d3557">Colores de cables</text>
+  <g font-size="12" fill="#333">
+    <line x1="60" y1="825" x2="90" y2="825" stroke="#d62828" stroke-width="4"/><text x="98" y="829">3V3 (alimentación)</text>
+    <line x1="60" y1="847" x2="90" y2="847" stroke="#222" stroke-width="4"/><text x="98" y="851">GND (tierra común)</text>
+    <line x1="60" y1="869" x2="90" y2="869" stroke="#0f9d8a" stroke-width="4"/><text x="98" y="873">HX711 DT → GPIO16</text>
+    <line x1="60" y1="891" x2="90" y2="891" stroke="#7b2cbf" stroke-width="4"/><text x="98" y="895">HX711 SCK → GPIO4</text>
+    <line x1="260" y1="825" x2="290" y2="825" stroke="#f77f00" stroke-width="4"/><text x="298" y="829">DHT22 DATA → GPIO15</text>
+    <line x1="260" y1="847" x2="290" y2="847" stroke="#1d4ed8" stroke-width="4"/><text x="298" y="851">MC-31 → GPIO27 (PULL_UP)</text>
+    <line x1="260" y1="869" x2="290" y2="869" stroke="#2b9348" stroke-width="4"/><text x="298" y="873">LED verde → GPIO25</text>
+    <line x1="260" y1="891" x2="290" y2="891" stroke="#c2185b" stroke-width="4"/><text x="298" y="895">LED rojo → GPIO26</text>
+  </g>
+  <text x="510" y="805" font-size="14" font-weight="bold" fill="#1d3557">LEDs de estado</text>
+  <g font-size="12" fill="#333">
+    <text x="510" y="829">Verde fijo: es tu turno, abre la puerta</text>
+    <text x="510" y="851">Rojo fijo: libre / en uso por otra persona</text>
+    <text x="510" y="873">Rojo parpadeando: puerta abierta sin turno</text>
+    <text x="510" y="895">Ambos parpadeando: sin conexión · Verde parpadea: retiro registrado</text>
+  </g>
+  <text x="930" y="805" font-size="14" font-weight="bold" fill="#1d3557">Notas</text>
+  <g font-size="12" fill="#333">
+    <text x="930" y="829">Cruce con “salto” = sin conexión</text>
+    <text x="930" y="851">Punto relleno = unión eléctrica</text>
+    <text x="930" y="873">Todas las tierras son comunes</text>
+    <text x="930" y="895">Placa alimentada por USB 5 V</text>
+  </g>
+</svg>
