@@ -42,9 +42,10 @@ function tramosPuertaAbierta(puntos, pasoMs) {
   return tramos;
 }
 
-function opcionesBase({ minutos, puntos, ejesY }) {
+// Sin `desde`, la ventana termina ahora; con `desde` (un día elegido) el eje queda fijo
+function opcionesBase({ minutos, desde, puntos, ejesY }) {
   const pasoMs = Math.max(1, Math.ceil((minutos * 60) / 300)) * 1000; // igual que el backend
-  const ahora = Date.now();
+  const inicio = desde ?? Date.now() - minutos * 60_000;
   const texto = color('--texto-suave');
   const rejilla = color('--borde');
   return {
@@ -60,9 +61,10 @@ function opcionesBase({ minutos, puntos, ejesY }) {
     scales: {
       x: {
         type: 'linear',
-        min: ahora - minutos * 60_000,
-        max: ahora,
-        ticks: { color: texto, maxTicksLimit: 6, callback: (v) => hora(v) },
+        min: inicio,
+        max: inicio + minutos * 60_000,
+        // Un día: marcas cada 4 h (00:00, 04:00…; Bolivia es UTC−4, así que caen en horas exactas)
+        ticks: { color: texto, ...(desde != null ? { stepSize: 4 * 3_600_000 } : { maxTicksLimit: 6 }), callback: (v) => hora(v) },
         grid: { color: rejilla },
       },
       ...ejesY(texto, rejilla),
@@ -70,7 +72,7 @@ function opcionesBase({ minutos, puntos, ejesY }) {
   };
 }
 
-export function GraficaBotellas({ lecturas, minutos }) {
+export function GraficaBotellas({ lecturas, minutos, desde }) {
   const puntos = lecturas.map((l) => ({ ...l, t: new Date(l.momento).getTime() }));
   const verde = color('--verde');
   const datos = {
@@ -87,6 +89,7 @@ export function GraficaBotellas({ lecturas, minutos }) {
   };
   const opciones = opcionesBase({
     minutos,
+    desde,
     puntos,
     ejesY: (texto, rejilla) => ({
       y: { beginAtZero: true, ticks: { color: texto, precision: 0 }, grid: { color: rejilla } },
@@ -95,7 +98,7 @@ export function GraficaBotellas({ lecturas, minutos }) {
   return <div className="grafica"><Line data={datos} options={opciones} /></div>;
 }
 
-export function GraficaClima({ lecturas, minutos }) {
+export function GraficaClima({ lecturas, minutos, desde }) {
   const puntos = lecturas.map((l) => ({ ...l, t: new Date(l.momento).getTime() }));
   const datos = {
     datasets: [
@@ -122,6 +125,7 @@ export function GraficaClima({ lecturas, minutos }) {
   };
   const opciones = opcionesBase({
     minutos,
+    desde,
     puntos,
     ejesY: (texto, rejilla) => ({
       y: {

@@ -16,6 +16,16 @@ export function fechaLarga(fechaTexto) {
   });
 }
 
+// Fecha de hoy en Bolivia como "2026-10-15" (para el selector de fecha)
+export function hoyBolivia() {
+  return new Date().toLocaleDateString('en-CA', { timeZone: 'America/La_Paz' });
+}
+
+// "2026-10-15" -> milisegundos de las 00:00 de ese día en Bolivia (UTC−4 todo el año, sin horario de verano)
+export function inicioDiaBolivia(fechaTexto) {
+  return Date.parse(`${fechaTexto}T00:00:00-04:00`);
+}
+
 export function hora(momento, conSegundos = false) {
   if (!momento) return '—';
   return new Date(momento).toLocaleTimeString(LOCALE, {

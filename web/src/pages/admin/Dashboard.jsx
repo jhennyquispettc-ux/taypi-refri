@@ -5,7 +5,7 @@ import { useConsulta } from '../../hooks/useConsulta.js';
 import { useCuentaRegresiva } from '../../hooks/useCuentaRegresiva.js';
 import { api } from '../../lib/api.js';
 import { INTERVALO_POLLING } from '../../config.js';
-import { fechaHora, hora, humedad, temperatura } from '../../lib/formato.js';
+import { fechaCorta, fechaHora, hora, hoyBolivia, humedad, inicioDiaBolivia, temperatura } from '../../lib/formato.js';
 import { Aviso, Cargando, Insignia, MensajeError } from '../../components/Comunes.jsx';
 import { GraficaBotellas, GraficaClima } from './Graficas.jsx';
 
@@ -18,9 +18,14 @@ const RANGOS = [
 
 export default function Dashboard() {
   const [minutos, setMinutos] = useState(60);
+  const [fecha, setFecha] = useState(''); // '' = en vivo (últimos `minutos`); 'AAAA-MM-DD' = ese día
   const estado = useConsulta('/admin/estado', INTERVALO_POLLING);
-  const lecturas = useConsulta(`/admin/lecturas?minutos=${minutos}`, INTERVALO_POLLING);
-  const turnos = useConsulta('/admin/turnos?limite=30', 5000);
+  const lecturas = useConsulta(
+    fecha ? `/admin/lecturas?fecha=${fecha}` : `/admin/lecturas?minutos=${minutos}`,
+    INTERVALO_POLLING,
+  );
+  const turnos = useConsulta(fecha ? `/admin/turnos?fecha=${fecha}&limite=500` : '/admin/turnos?limite=30', 5000);
+  const rango = fecha ? { minutos: 24 * 60, desde: inicioDiaBolivia(fecha) } : { minutos };
 
   // 403: el usuario dejó de ser admin
   if ([estado, lecturas, turnos].some((c) => c.error?.status === 403)) return <Navigate to="/" replace />;
@@ -37,37 +42,50 @@ export default function Dashboard() {
       <section className="tarjeta">
         <div className="tarjeta-titulo">
           <h2>Gráficas</h2>
-          <div className="segmentado" role="group" aria-label="Rango de tiempo">
-            {RANGOS.map((r) => (
-              <button
-                key={r.minutos}
-                type="button"
-                className={r.minutos === minutos ? 'activo' : ''}
-                aria-pressed={r.minutos === minutos}
-                onClick={() => setMinutos(r.minutos)}
-              >
-                {r.texto}
-              </button>
-            ))}
+          <div className="controles-rango">
+            <div className="segmentado" role="group" aria-label="Rango de tiempo">
+              {RANGOS.map((r) => (
+                <button
+                  key={r.minutos}
+                  type="button"
+                  className={!fecha && r.minutos === minutos ? 'activo' : ''}
+                  aria-pressed={!fecha && r.minutos === minutos}
+                  onClick={() => { setMinutos(r.minutos); setFecha(''); }}
+                >
+                  {r.texto}
+                </button>
+              ))}
+            </div>
+            <input
+              type="date"
+              className={`campo-fecha ${fecha ? 'activo' : ''}`}
+              aria-label="Ver un día"
+              title="Ver un día completo"
+              value={fecha}
+              max={hoyBolivia()}
+              onChange={(e) => setFecha(e.target.value)}
+            />
           </div>
         </div>
         <MensajeError error={lecturas.error} />
         {lecturas.cargando && !lecturas.datos && <Cargando />}
         {lecturas.datos && lecturas.datos.length === 0 && (
-          <p className="nota">No hay lecturas en este rango. ¿Está encendido el ESP32?</p>
+          <p className="nota">
+            {fecha ? 'No hay lecturas en esta fecha.' : 'No hay lecturas en este rango. ¿Está encendido el ESP32?'}
+          </p>
         )}
         {lecturas.datos && lecturas.datos.length > 0 && (
           <>
             <h3 className="subtitulo">Botellas en el tiempo</h3>
-            <GraficaBotellas lecturas={lecturas.datos} minutos={minutos} />
+            <GraficaBotellas lecturas={lecturas.datos} {...rango} />
             <h3 className="subtitulo">Temperatura y humedad</h3>
-            <GraficaClima lecturas={lecturas.datos} minutos={minutos} />
+            <GraficaClima lecturas={lecturas.datos} {...rango} />
             <p className="nota"><span className="muestra-puerta" /> Zona sombreada: puerta abierta.</p>
           </>
         )}
       </section>
 
-      <UltimosUsos consulta={turnos} />
+      <UltimosUsos consulta={turnos} fecha={fecha} />
     </div>
   );
 }
@@ -157,14 +175,16 @@ function Kpi({ etiqueta, valor, detalle, tipo, ancho }) {
   );
 }
 
-function UltimosUsos({ consulta }) {
+function UltimosUsos({ consulta, fecha }) {
   const { datos, error } = consulta;
   return (
     <section className="tarjeta">
-      <div className="tarjeta-titulo"><h2>Últimos usos</h2></div>
+      <div className="tarjeta-titulo"><h2>{fecha ? `Usos del ${fechaCorta(fecha)}` : 'Últimos usos'}</h2></div>
       <MensajeError error={error} />
       {!datos && !error && <Cargando />}
-      {datos && datos.length === 0 && <p className="nota">Todavía no hay usos registrados.</p>}
+      {datos && datos.length === 0 && (
+        <p className="nota">{fecha ? 'No hubo usos en esta fecha.' : 'Todavía no hay usos registrados.'}</p>
+      )}
       {datos && datos.length > 0 && (
         <div className="tabla-scroll">
           <table className="tabla">

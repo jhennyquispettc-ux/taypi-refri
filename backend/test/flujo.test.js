@@ -177,6 +177,24 @@ test('admin libera un turno trabado y obtiene las lecturas para las gráficas', 
   assert.ok('temperatura' in g.data[0] && 'botellas' in g.data[0]);
 });
 
+test('admin ve las lecturas y los usos de un día (hora de Bolivia)', async () => {
+  await pg().query(
+    `insert into lecturas (botellas, puerta_abierta, creado_en) values
+       (6, false, '2026-01-09 23:59:30-04'), (9, false, '2026-01-10 00:00:30-04'),
+       (7, false, '2026-01-10 23:59:00-04'), (8, false, '2026-01-11 00:01:00-04')`,
+  );
+  const g = await api('GET', '/admin/lecturas?fecha=2026-01-10', { token: admin.token });
+  assert.deepEqual(g.data.map((p) => p.botellas), [9, 7]);
+
+  const { rows: [{ hoy }] } = await pg().query(`select (now() at time zone 'America/La_Paz')::date::text as hoy`);
+  assert.ok((await api('GET', `/admin/turnos?fecha=${hoy}`, { token: admin.token })).data.length >= 1);
+  assert.equal((await api('GET', '/admin/turnos?fecha=2026-01-10', { token: admin.token })).data.length, 0);
+
+  for (const ruta of ['/admin/lecturas?fecha=2026-02-30', '/admin/turnos?fecha=10-01-2026']) {
+    assert.equal((await api('GET', ruta, { token: admin.token })).status, 400);
+  }
+});
+
 test('validación de datos del ESP32', async () => {
   assert.equal((await esp('cierre', { botellas: -1 })).status, 400);
   assert.equal((await esp('apertura', {})).status, 400);

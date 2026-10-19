@@ -328,6 +328,20 @@ code { background: var(--superficie-2); padding: 1px 6px; border-radius: 6px; }
 }
 .segmentado button.activo { background: var(--superficie); color: var(--texto); font-weight: 700; box-shadow: var(--sombra); }
 
+.controles-rango { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.campo-fecha {
+  font: inherit;
+  font-size: 0.85rem;
+  color: var(--texto-suave);
+  background: var(--superficie-2);
+  border: 1px solid transparent;
+  border-radius: 10px;
+  padding: 6px 10px;
+  min-height: 40px;
+}
+.campo-fecha.activo { color: var(--texto); font-weight: 700; border-color: var(--verde); }
+.campo-fecha:focus-visible { outline: 3px solid var(--verde); outline-offset: 2px; }
+
 .grafica { position: relative; height: 240px; }
 .muestra-puerta {
   display: inline-block;

@@ -175,8 +175,11 @@ curl $API/admin/estado -H "Authorization: Bearer $TOKEN"
 
 Serie para las gráficas, agrupada con `date_bin` en **máximo ~300 puntos**. `minutos` entre 1 y 10 080 (7 días), por defecto 60.
 
+Con `fecha=AAAA-MM-DD` (en lugar de `minutos`) devuelve **ese día completo** en hora de Bolivia, de 00:00 a 24:00 (un punto cada 288 s). Una fecha mal escrita o inexistente responde `400 { "error": "fecha debe tener el formato AAAA-MM-DD" }`.
+
 ```bash
 curl "$API/admin/lecturas?minutos=60" -H "Authorization: Bearer $TOKEN"
+curl "$API/admin/lecturas?fecha=2026-10-15" -H "Authorization: Bearer $TOKEN"
 ```
 **200**
 ```json
@@ -221,8 +224,11 @@ Errores: `400 { "error": "pagada debe ser true o false" }`, `404 { "error": "Cue
 
 Historial de usos (turnos `abierto`, `cerrado` y `liberado`; no muestra los expirados). `limite` máximo 500.
 
+Con `fecha=AAAA-MM-DD` devuelve solo los usos de ese día en hora de Bolivia (por la hora de apertura). Mismo `400` que `/admin/lecturas` si la fecha no es válida.
+
 ```bash
 curl "$API/admin/turnos?limite=20" -H "Authorization: Bearer $TOKEN"
+curl "$API/admin/turnos?fecha=2026-10-15&limite=500" -H "Authorization: Bearer $TOKEN"
 ```
 **200**
 ```json
